@@ -40,6 +40,7 @@
     name: "{{ az_availabilitysets_name }}"
     location: "{{ az_location }}"
     resource_group: "{{ az_resourcegroup_name }}"
+    sku: "{{ az_availabilitysets_sku }}"
 
 - name: Create public ip for {{ az_loadbalancer_name }}
   local_action:
