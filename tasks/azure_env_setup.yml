@@ -24,6 +24,19 @@
     address_prefix_cidr: "{{ az_sub_cidr_prefix }}"
     state: present
 
+- name:  Peer {{ az_virtualnet_name }} Virtual Network with the lab
+  local_action:
+    module: azure_rm_virtualnetworkpeering
+    resource_group: "{{ az_lab_resourcegroup_name }}"
+    virtual_network: "{{ az_lab_virtualnet_name }}"
+    name:  "{{ az_peering_name }}"
+    remote_virtual_network:
+      resource_group: "{{ az_resourcegroup_name }}"
+      name: "{{ az_virtualnet_name }}"
+    allow_virtual_network_access: false
+    allow_forwarded_traffic: true
+
+
 # - name: Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
 #   local_action:
 #     module: azure_rm_storageaccount
