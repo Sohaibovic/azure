@@ -33,8 +33,20 @@
     remote_virtual_network:
       resource_group: "{{ az_resourcegroup_name }}"
       name: "{{ az_virtualnet_name }}"
-    allow_virtual_network_access: false
+    allow_virtual_network_access: true
     allow_forwarded_traffic: true
+
+- name:  Peer the lab back with the {{ az_virtualnet_name }} Virtual Network
+  local_action:
+    module: azure_rm_virtualnetworkpeering
+    resource_group: "{{ az_resourcegroup_name }}"
+    virtual_network: "{{ az_virtualnet_name }}"
+    name:  "{{ az_peering_name }}"
+    remote_virtual_network:
+      resource_group: "{{ az_lab_resourcegroup_name }}"
+      name: "{{ az_lab_virtualnet_name }}"
+    allow_virtual_network_access: false
+    allow_forwarded_traffic: false
 
 
 # - name: Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
