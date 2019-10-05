@@ -32,8 +32,14 @@
     location: "{{ az_location }}"
     type: "{{ az_storageaccount_type }}"
     kind: "{{ az_storageaccount_kind }}"
-    # access_tier: "{{ az_storageaccount_tier }}"
+    access_tier: "{{ az_storageaccount_tier }}"
     state: present
+
+- name: Create availability set "{{ az_availabilitysets_name }}"
+  azure_rm_availabilityset:
+    name: "{{ az_availabilitysets_name }}"
+    location: "{{ az_location }}"
+    resource_group: "{{ az_resourcegroup_name }}"
 
 - name: Create public ip for {{ az_loadbalancer_name }}
   local_action:
