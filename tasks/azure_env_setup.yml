@@ -35,6 +35,19 @@
       name: "{{ az_virtualnet_name }}"
     allow_virtual_network_access: true
     allow_forwarded_traffic: true
+  
+- name: Wait for {{ az_virtualnet_name }} peering readyness
+  local_action:
+    module: azure_rm_virtualnetworkpeering_facts
+    resource_group: "{{ az_lab_resourcegroup_name }}"
+    virtual_network: "{{ az_lab_virtualnet_name }}"
+    name:  "{{ az_peering_name }}"
+  register: peering_status
+
+- debug: 
+    var: peering_status
+
+
 
 - name:  Peer the lab back with the {{ az_virtualnet_name }} Virtual Network
   local_action:
