@@ -43,7 +43,9 @@
     virtual_network: "{{ az_lab_virtualnet_name }}"
     name:  "{{ az_peering_name }}"
   register: peering_status
-  until: peering_status.vnetpeerings.0.peering_state is Initiated
+  until: 
+    peering_status.vnetpeerings.0.peering_state is Initiated 
+    or peering_status.vnetpeerings.0.peering_state is Connected
   retries: 5
   delay: 10
 
