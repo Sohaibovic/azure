@@ -49,12 +49,6 @@
   retries: 5
   delay: 10
 
-
-- debug: 
-    var: peering_status
-
-
-
 - name:  Peer the lab back with the {{ az_virtualnet_name }} Virtual Network
   local_action:
     module: azure_rm_virtualnetworkpeering
@@ -67,17 +61,24 @@
     allow_virtual_network_access: false
     allow_forwarded_traffic: false
 
+- name: Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
+  local_action:
+    module: azure_rm_storageaccount
+    name: "{{ az_storageaccount_name }}"
+    resource_group: "{{ az_resourcegroup_name }}"
+    location: "{{ az_location }}"
+    type: "{{ az_storageaccount_type }}"
+    kind: "{{ az_storageaccount_kind }}"
+    access_tier: "{{ az_storageaccount_tier }}"
+    state: present
 
-# - name: Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
-#   local_action:
-#     module: azure_rm_storageaccount
-#     name: "{{ az_storageaccount_name }}"
-#     resource_group: "{{ az_resourcegroup_name }}"
-#     location: "{{ az_location }}"
-#     type: "{{ az_storageaccount_type }}"
-#     kind: "{{ az_storageaccount_kind }}"
-#     access_tier: "{{ az_storageaccount_tier }}"
-#     state: present
+- name: Create the "{{ az_storageaccount_container }}" container 
+  local_action:
+    module: azure_rm_storageblob
+    resource_group:  "{{ az_resourcegroup_name }}"
+    storage_account_name: "{{ az_storageaccount_name }}"
+    container:  "{{ az_storageaccount_container }}"
+    public_access: container
 
 - name: Create availability set "{{ az_availabilitysets_name }}"
   azure_rm_availabilityset:
