@@ -2,7 +2,7 @@
 # defaults file for azure
 
 # Lab variables
-customer: "ML"
+customer: "ml"
 az_environment: "cat"
 az_region: "westeurope"
 az_location: "{{ az_region }}"
