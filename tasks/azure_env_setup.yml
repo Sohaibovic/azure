@@ -76,6 +76,7 @@
     module: azure_rm_storageaccount_facts
     resource_group: "{{ az_resourcegroup_name }}"
     name: "{{ az_storageaccount_name }}"
+    show_connection_string: yes
   register: account_facts
 
 - debug: 
