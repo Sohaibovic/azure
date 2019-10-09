@@ -2,8 +2,8 @@
 # defaults file for azure
 
 # Lab variables
-customer: "demolab"
-az_environment: "blue"
+customer: "ML"
+az_environment: "cat"
 az_region: "westeurope"
 az_location: "{{ az_region }}"
 az_resourcegroup_name: "{{ az_environment }}_rg"
