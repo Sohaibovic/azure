@@ -45,7 +45,7 @@
   register: peering_status
   until: 
     peering_status.vnetpeerings.0.peering_state == "Initiated" 
-    or peering_status.vnetpeerings.0.peering_state == "Connected"
+    # or peering_status.vnetpeerings.0.peering_state == "Connected"
   retries: 5
   delay: 10
 
