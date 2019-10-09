@@ -80,7 +80,7 @@
   register: account_facts
 
 - debug: 
-    var: account_facts.ansible_facts.storageaccounts.0.primary_endpoints.blob.connectionstring | regex_search('AccountKey=(.*);')
+    var: account_facts.ansible_facts.storageaccounts.0.primary_endpoints.blob.connectionstring | regex_search('AccountKey=.*;') | regex_replace('AccountKey=','')
 
 - name: Create the "{{ az_storageaccount_container }}" container 
   local_action:
