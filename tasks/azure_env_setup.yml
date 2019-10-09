@@ -71,6 +71,16 @@
     access_tier: "{{ az_storageaccount_tier }}"
     state: present
 
+- name: Get {{ az_storageaccount_name }} access secrets
+  local_action:
+    azure_rm_storageaccount_facts:
+      resource_group: "{{ az_resourcegroup_name }}"
+      name: "{{ az_storageaccount_name }}"
+    register: account_facts
+
+- debug: 
+    var: account_facts
+
 - name: Create the "{{ az_storageaccount_container }}" container 
   local_action:
     module: azure_rm_storageblob
