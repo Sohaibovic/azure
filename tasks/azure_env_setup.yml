@@ -98,6 +98,9 @@
 - debug: 
     var: hostvars
 
+- debug: 
+    var: cat_facts
+
 - name: Create availability set "{{ az_availabilitysets_name }}"
   azure_rm_availabilityset:
     name: "{{ az_availabilitysets_name }}"
