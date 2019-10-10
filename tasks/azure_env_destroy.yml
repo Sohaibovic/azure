@@ -6,3 +6,13 @@
     name: "{{ az_resourcegroup_name }}"
     state: absent
     force: yes
+
+- name:  Remove the lab peering 
+  local_action:
+    module: azure_rm_virtualnetworkpeering
+    resource_group: "{{ az_lab_resourcegroup_name }}"
+    virtual_network: "{{ az_lab_virtualnet_name }}"
+    name:  "{{ az_peering_name }}"
+    state: absent
+
+    
