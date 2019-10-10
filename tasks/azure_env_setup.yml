@@ -95,6 +95,9 @@
       blob_container: "{{ az_storageaccount_container }}"
     cacheable: yes 
 
+- debug: 
+    var: hostvars
+
 - name: Create availability set "{{ az_availabilitysets_name }}"
   azure_rm_availabilityset:
     name: "{{ az_availabilitysets_name }}"
