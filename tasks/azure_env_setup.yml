@@ -79,9 +79,6 @@
     show_connection_string: yes
   register: account_facts
 
-- debug: 
-    var: account_facts.ansible_facts.storageaccounts.0.primary_endpoints.blob.connectionstring | regex_search('AccountKey=.*;') | regex_replace('AccountKey=','')
-
 - name: Create the "{{ az_storageaccount_container }}" container 
   local_action:
     module: azure_rm_storageblob
@@ -89,6 +86,19 @@
     storage_account_name: "{{ az_storageaccount_name }}"
     container:  "{{ az_storageaccount_container }}"
     public_access: container
+
+- name: Get the blob access key and record needed facts
+  set_fact:
+    cat_facts: 
+      blob_key: "{{ account_facts.ansible_facts.storageaccounts.0.primary_endpoints.blob.connectionstring | regex_search('AccountKey=.*;') | regex_replace('AccountKey=','') }}"
+      blob_account: "{{ az_storageaccount_name }}"
+      blob_container: "{{ az_storageaccount_container }}"
+  delegate_to: localhost
+  delegate_facts: yes
+  cacheable: yes 
+
+- debug:
+    var: cat_facts
 
 - name: Create availability set "{{ az_availabilitysets_name }}"
   azure_rm_availabilityset:
