@@ -94,11 +94,6 @@
       blob_account: "{{ az_storageaccount_name }}"
       blob_container: "{{ az_storageaccount_container }}"
     cacheable: yes 
-  delegate_to: localhost
-  delegate_facts: yes
-
-- debug:
-    var: cat_facts
 
 - name: Create availability set "{{ az_availabilitysets_name }}"
   azure_rm_availabilityset:
