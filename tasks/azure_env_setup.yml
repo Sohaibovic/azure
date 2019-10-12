@@ -149,3 +149,8 @@
       blob_key: "{{ blob_key }}"
       blob_account: "{{ az_storageaccount_name }}"
       blob_container: "{{ az_storageaccount_container }}"
+      lb_ip: "{{ r_lb_public_ip.state.ip_address }}"
+      lb_fqdn: "{{ r_lb_public_ip.state.dns_settings.fqdn }}"
+
+
+      

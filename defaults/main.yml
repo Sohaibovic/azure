@@ -28,7 +28,7 @@ az_vm_public_ip_method: "Disabled"
 az_loadbalancer_name: "{{ az_environment }}-lb"
 az_loadbalancer_fport: "80"
 az_loadbalancer_bport: "80"
-az_lb_domain_name_label: "hdnhd"
+az_lb_domain_name_label: "dcl-cat"
 az_availabilitysets_sku: "Aligned"
 az_managed_disk_type: "Standard_LRS"
 
