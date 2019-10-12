@@ -111,9 +111,6 @@
     domain_name_label: "{{ az_lb_domain_name_label }}"
   register: r_lb_public_ip
 
-- debug: 
-    var: r_lb_public_ip
-
 - name: Create {{ az_loadbalancer_name }}
   local_action:
     module: azure_rm_loadbalancer
@@ -153,4 +150,3 @@
       lb_fqdn: "{{ r_lb_public_ip.state.dns_settings.fqdn }}"
 
 
-      
