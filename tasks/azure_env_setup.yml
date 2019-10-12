@@ -95,16 +95,6 @@
     container:  "{{ az_storageaccount_container }}"
     public_access: container
 
-- name: Record needed facts
-  set_fact:
-    cat_facts: 
-      blob_key: "{{ blob_key }}"
-      blob_account: "{{ az_storageaccount_name }}"
-      blob_container: "{{ az_storageaccount_container }}"
-
-- debug: 
-    var: cat_facts
-
 - name: Create availability set "{{ az_availabilitysets_name }}"
   azure_rm_availabilityset:
     name: "{{ az_availabilitysets_name }}"
@@ -120,6 +110,9 @@
     name: "{{ az_lb_public_ip_name }}"
     domain_name_label: "{{ az_lb_domain_name_label }}"
   register: r_lb_public_ip
+
+- debug: 
+    var: r_lb_public_ip
 
 - name: Create {{ az_loadbalancer_name }}
   local_action:
@@ -149,3 +142,10 @@
         backend_port: "{{ az_loadbalancer_bport }}"
         idle_timeout: 4
     state: present
+
+- name: Record needed facts from the newly provisioned infrastructure
+  set_fact:
+    cat_facts: 
+      blob_key: "{{ blob_key }}"
+      blob_account: "{{ az_storageaccount_name }}"
+      blob_container: "{{ az_storageaccount_container }}"
