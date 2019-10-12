@@ -90,12 +90,9 @@
 - name: Get the blob access key and record needed facts
   set_fact:
     cat_facts: 
-      blob_key: "{{ account_facts.ansible_facts.storageaccounts.0.primary_endpoints.blob.connectionstring | regex_search('AccountKey=.*;') | regex_replace('AccountKey=','') }}"
+      blob_key: "{{ account_facts.ansible_facts.storageaccounts.0.primary_endpoints.blob.connectionstring | regex_search('AccountKey=.*;') | regex_replace(';$','') }}"
       blob_account: "{{ az_storageaccount_name }}"
       blob_container: "{{ az_storageaccount_container }}"
-
-- debug: 
-    var: hostvars
 
 - name: Create availability set "{{ az_availabilitysets_name }}"
   azure_rm_availabilityset:
