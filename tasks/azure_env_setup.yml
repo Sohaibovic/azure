@@ -148,6 +148,9 @@
       blob_container: "{{ az_storageaccount_container }}"
       lb_ip: "{{ r_lb_public_ip.state.ip_address }}"
       lb_fqdn: "{{ r_lb_public_ip.state.dns_settings.fqdn }}"
+  delegate_to: fact_store
+  delegate_facts: yes
+  run_once: yes
 #   when: cat 
 
 
