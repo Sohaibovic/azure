@@ -34,14 +34,31 @@
   add_host:
     name: "{{ item }}"
     groups: "{{ az_scope }}"
-  with_items: "{{ ips_to_add }}.{{ az_scope }}"
+  with_items: "{{ ips_to_add.eap }}"
+  when: az_scope == 'eap'
+
+- name: Add hosts to in memory inventory
+  add_host:
+    name: "{{ item }}"
+    groups: "{{ az_scope }}"
+  with_items: "{{ ips_to_add.database }}"
+  when: az_scope == 'database'
 
 - name: Wait for SSH to come up
   wait_for_connection:
     timeout: 600
     sleep: 15
   delegate_to: "{{ item }}"
-  with_items: '[ "{{ ips_to_add }}.{{ az_scope }}" ]'
+  with_items: "{{ ips_to_add.database }}"
+  when: az_scope == 'database'
+
+- name: Wait for SSH to come up
+  wait_for_connection:
+    timeout: 600
+    sleep: 15
+  delegate_to: "{{ item }}"
+  with_items: "{{ ips_to_add.eap }}"
+  when: az_scope == 'eap'
 
 # Sometimes I need to use this role to create public IP VMs
 # Todo: add a role variable to control this
