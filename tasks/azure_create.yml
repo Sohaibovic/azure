@@ -12,7 +12,7 @@
         direction: Inbound
       - name: Http
         protocol: Tcp
-        destination_port_range: 80
+        destination_port_range: "{{ az_loadbalancer_bport }}"
         access: Allow
         priority: 103
         direction: Inbound
@@ -32,6 +32,20 @@
          - name: "{{ az_loadbalancer_name }}-web-srv"
            load_balancer: "{{ az_loadbalancer_name }}"
   with_sequence: count="{{az_count}}" 
+  when: az_scope == 'eap'
+
+- name: Create NICs
+  azure_rm_networkinterface:
+    resource_group: "{{ az_resourcegroup_name }}"
+    name: "nic-{{ az_scope }}-{{ item }}"
+    virtual_network: "{{ az_virtualnet_name }}"
+    subnet: "{{ az_subnet_name }}"
+    security_group: "{{ az_secgroup_name }}"
+    ip_configurations:
+      - name: "{{ az_scope }}-{{ item }}"
+        # public_ip_address_name: "{{ az_scope }}-{{ item }}-public"
+  with_sequence: count="{{az_count}}" 
+  when: az_scope == 'database'
 
 - name: "Create Virtual Machines"
   azure_rm_virtualmachine:
