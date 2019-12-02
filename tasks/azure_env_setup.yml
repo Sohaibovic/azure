@@ -71,29 +71,29 @@
     access_tier: "{{ az_storageaccount_tier }}"
     state: present
 
-- name: Get {{ az_storageaccount_name }} access secrets
-  local_action:
-    module: azure_rm_storageaccount_facts
-    resource_group: "{{ az_resourcegroup_name }}"
-    name: "{{ az_storageaccount_name }}"
-    show_connection_string: yes
-  register: account_facts
+# - name: Get {{ az_storageaccount_name }} access secrets
+#   local_action:
+#     module: azure_rm_storageaccount_facts
+#     resource_group: "{{ az_resourcegroup_name }}"
+#     name: "{{ az_storageaccount_name }}"
+#     show_connection_string: yes
+#   register: account_facts
 
-- name: Get the blob access key 
-  set_fact:
-    blob_key:  >-
-      {{ account_facts.ansible_facts.storageaccounts.0.primary_endpoints.blob.connectionstring 
-      | regex_search('AccountKey=.*;') 
-      | regex_replace('AccountKey=','') 
-      | regex_replace(';$','') }}
+# - name: Get the blob access key 
+#   set_fact:
+#     blob_key:  >-
+#       {{ account_facts.ansible_facts.storageaccounts.0.primary_endpoints.blob.connectionstring 
+#       | regex_search('AccountKey=.*;') 
+#       | regex_replace('AccountKey=','') 
+#       | regex_replace(';$','') }}
 
-- name: Create the "{{ az_storageaccount_container }}" container 
-  local_action:
-    module: azure_rm_storageblob
-    resource_group:  "{{ az_resourcegroup_name }}"
-    storage_account_name: "{{ az_storageaccount_name }}"
-    container:  "{{ az_storageaccount_container }}"
-    public_access: container
+# - name: Create the "{{ az_storageaccount_container }}" container 
+#   local_action:
+#     module: azure_rm_storageblob
+#     resource_group:  "{{ az_resourcegroup_name }}"
+#     storage_account_name: "{{ az_storageaccount_name }}"
+#     container:  "{{ az_storageaccount_container }}"
+#     public_access: container
 
 - name: Create availability set "{{ az_availabilitysets_name }}"
   azure_rm_availabilityset:
@@ -143,9 +143,9 @@
 - name: Record needed facts from the newly provisioned infrastructure
   set_fact:
     cat_facts: 
-      blob_key: "{{ blob_key }}"
-      blob_account: "{{ az_storageaccount_name }}"
-      blob_container: "{{ az_storageaccount_container }}"
+      # blob_key: "{{ blob_key }}"
+      # blob_account: "{{ az_storageaccount_name }}"
+      # blob_container: "{{ az_storageaccount_container }}"
       lb_ip: "{{ r_lb_public_ip.state.ip_address }}"
       lb_fqdn: "{{ r_lb_public_ip.state.dns_settings.fqdn }}"
   delegate_to: fact_store
