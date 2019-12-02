@@ -4,7 +4,7 @@
 
 - name: Smoke Test for "{{ hostvars.fact_store.cat_facts.lb_fqdn }}"
   uri: 
-    url: "http://{{ hostvars.fact_store.cat_facts.lb_fqdn }}:{{ ec2_lb_target_port }}"
+    url: "http://{{ hostvars.fact_store.cat_facts.lb_fqdn }}:{{ az_loadbalancer_fport }}"
   register: smoke_test
   until: smoke_test.status == 200
   retries: 10
@@ -15,7 +15,7 @@
   debug: 
     msg:
      - "* Provision Success"
-     - "* Reach Application at: {{ hostvars.fact_store.cat_facts.lb_fqdn }}:8080"
+     - "* Reach Application at: {{ hostvars.fact_store.cat_facts.lb_fqdn }}:{{ az_loadbalancer_fport }}"
      # - "* Load Balancer IP: {{ hostvars.fact_store.cat_facts.lb_ip }}"   
     verbosity: 0
   run_once: yes
