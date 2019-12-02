@@ -1,0 +1,21 @@
+---
+
+# - name: Add the nic to LB after app provisioning
+
+- name: Smoke Test for "{{ hostvars.fact_store.cat_facts.lb_fqdn }}"
+  uri: 
+    url: "http://{{ hostvars.fact_store.cat_facts.lb_fqdn }}:{{ ec2_lb_target_port }}"
+  register: smoke_test
+  until: smoke_test.status == 200
+  retries: 10
+  delay: 10
+  run_once: yes
+
+- name: Notify Success
+  debug: 
+    msg:
+     - "* Provision Success"
+     - "* Reach Application at: {{ hostvars.fact_store.cat_facts.lb_fqdn }}:8080"
+     # - "* Load Balancer IP: {{ hostvars.fact_store.cat_facts.lb_ip }}"   
+    verbosity: 0
+  run_once: yes
