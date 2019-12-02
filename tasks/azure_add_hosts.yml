@@ -15,13 +15,17 @@
     verbosity: 2
   when: ips_to_add is defined
 
+- debug: 
+    var: az_scope
+    verbosity: 2
+
 - name: Get list of IP address to Add 
   vars:
     ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
     ips_to_add: "{{ nics | json_query(ip_query) }}"
   set_fact:  
     { 'ips_to_add': 
-       { '{{ az_scope }}': '{{ ips_to_add.0 }}' }
+       { "{{ az_scope }}": "{{ ips_to_add.0 }}" }
     }
 
 - debug: 
