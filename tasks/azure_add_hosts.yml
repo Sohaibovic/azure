@@ -15,6 +15,9 @@
     verbosity: 2
   when: ips_to_add is defined
 
+- set_fact:
+    ips_to_add: []
+
 - name: Get list of IP address to Add 
   vars:
     ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
