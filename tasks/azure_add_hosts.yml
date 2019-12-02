@@ -21,10 +21,10 @@
     ips_to_add: "{{ nics | json_query(ip_query) }}"
   set_fact:  
     ips_to_add: 
-       "{ '{{ az_scope }}': '{{ ips_to_add.0 }}' }"
+       { '{{ az_scope }}': '{{ ips_to_add.0 }}' }
 
 - debug: 
-    var: ips_to_add
+    var: ips_to_add.database
     verbosity: 2
 
 - name: Add hosts to in memory inventory
