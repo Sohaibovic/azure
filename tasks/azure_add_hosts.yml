@@ -6,42 +6,34 @@
   with_sequence: count="{{az_count}}" 
   register: nics
 
-- debug: 
-    var: nics
-    verbosity: 2
-
-- debug: 
-    var: ips_to_add
-    verbosity: 2
-  when: ips_to_add is defined
-
-- debug: 
-    var: az_scope
-    verbosity: 2
-
-- name: Get list of IP address to Add 
+- name: Get list of EAP IP address to Add 
   vars:
     ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
-    ips_to_add: "{{ nics | json_query(ip_query) }}"
+    ips_to_add_eap: "{{ nics | json_query(ip_query) }}"
   set_fact:  
-    ips_to_add: '{ "{{ az_scope }}": "{{ ips_to_add.0 }}" }'
-
-- debug: 
-    var: ips_to_add.database
-    verbosity: 2
-
-- name: Add hosts to in memory inventory
-  add_host:
-    name: "{{ item }}"
-    groups: "{{ az_scope }}"
-  with_items: "{{ ips_to_add.eap }}"
+    ips_to_add_eap: "{{ ips_to_add_eap.0 }}"
   when: az_scope == 'eap'
 
-- name: Add hosts to in memory inventory
+- name: Add EAP hosts to in memory inventory
   add_host:
     name: "{{ item }}"
     groups: "{{ az_scope }}"
-  with_items: "{{ ips_to_add.database }}"
+  with_items: "{{ ips_to_add_eap }}"
+  when: az_scope == 'eap'
+
+- name: Get list of database IP address to Add 
+  vars:
+    ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
+    ips_to_add_database: "{{ nics | json_query(ip_query) }}"
+  set_fact:  
+    ips_to_add_database: "{{ ips_to_add_database.0 }}"
+  when: az_scope == 'database'
+
+- name: Add database hosts to in memory inventory
+  add_host:
+    name: "{{ item }}"
+    groups: "{{ az_scope }}"
+  with_items: "{{ ips_to_add_database }}"
   when: az_scope == 'database'
 
 - name: Wait for SSH to come up
@@ -49,7 +41,7 @@
     timeout: 600
     sleep: 15
   delegate_to: "{{ item }}"
-  with_items: "{{ ips_to_add.database }}"
+  with_items: "{{ ips_to_add_database }}"
   when: az_scope == 'database'
 
 - name: Wait for SSH to come up
@@ -57,7 +49,7 @@
     timeout: 600
     sleep: 15
   delegate_to: "{{ item }}"
-  with_items: "{{ ips_to_add.eap }}"
+  with_items: "{{ ips_to_add_eap }}"
   when: az_scope == 'eap'
 
 # Sometimes I need to use this role to create public IP VMs
