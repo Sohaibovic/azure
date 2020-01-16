@@ -32,7 +32,7 @@
          - name: "{{ az_loadbalancer_name }}-web-srv"
            load_balancer: "{{ az_loadbalancer_name }}"
   with_sequence: count="{{az_count}}" 
-  when: az_scope == 'eap'
+  when: az_loadbalanced
 
 - name: Create NICs
   azure_rm_networkinterface:
@@ -45,7 +45,7 @@
       - name: "{{ az_scope }}-{{ item }}"
         # public_ip_address_name: "{{ az_scope }}-{{ item }}-public"
   with_sequence: count="{{az_count}}" 
-  when: az_scope == 'database'
+  when: not az_loadbalanced
 
 - name: "Create Virtual Machines"
   azure_rm_virtualmachine:
