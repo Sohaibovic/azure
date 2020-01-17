@@ -29,7 +29,7 @@
     ip_query: 'results[*].networkinterfaces[*].ip_configurations[*].private_ip_address'
     ip_query_result: "{{ nics | json_query(ip_query) }}"
   set_fact:  
-    ips_to_add: "{{ ip_query_result }}"
+    ips_to_add: "{{ ip_query_result | flattened }}"
   
 - debug: 
     var: ips_to_add
