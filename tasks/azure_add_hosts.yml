@@ -26,7 +26,7 @@
     ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
     ips_to_add: "{{ nics | json_query(ip_query) }}"
   set_fact:  
-    ips_to_add: "{{ [az_scope, ips_to_add.0] }}"
+    ips_to_add: "{{ [az_scope, ips_to_add.0.0] }}"
   
 - debug: 
     var: ips_to_add
