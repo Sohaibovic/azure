@@ -27,7 +27,7 @@
 - name: Get list of IP address to Add for {{ az_scope }}
   vars:
     # ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
-    ip_query: 'results.0.networkinterfaces.0.ipConfigurations.0.privateIPAddress'
+    ip_query: 'results[0].networkinterfaces[0].ipConfigurations[0].privateIPAddress'
     ip_query_result: "{{ nics | json_query(ip_query) }}"
   set_fact:  
     ips_to_add: "{{ ip_query_result.0 }}"
