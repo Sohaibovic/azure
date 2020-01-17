@@ -31,6 +31,7 @@ az_loadbalancer_bport: "8080"
 az_lb_domain_name_label: "dcl-cat"
 az_availabilitysets_sku: "Aligned"
 az_managed_disk_type: "Standard_LRS"
+az_loadbalanced: no
 
 # VM variables
 scope: foo
