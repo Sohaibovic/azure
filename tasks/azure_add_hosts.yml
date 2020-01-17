@@ -6,9 +6,12 @@
   with_sequence: count="{{az_count}}" 
   register: nics
 
+- debug:
+    var: nics
+
 # - name: Get list of EAP IP address to Add 
 #   vars:
-#     ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
+#     ip_query: 'ipConfigurations.0.privateIPAddress'
 #     ips_to_add_eap: "{{ nics | json_query(ip_query) }}"
 #   set_fact:  
 #     ips_to_add_eap: "{{ ips_to_add_eap.0 }}"
@@ -23,6 +26,7 @@
 
 - name: Get list of IP address to Add for {{ az_scope }}
   vars:
+    # ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
     ip_query: 'results[*].ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[*].properties.privateIPAddress'
     ip_query_result: "{{ nics | json_query(ip_query) }}"
   set_fact:  
