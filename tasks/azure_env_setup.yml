@@ -38,7 +38,7 @@
   
 - name: Wait for {{ az_virtualnet_name }} peering readyness
   local_action:
-    module: azure_rm_virtualnetworkpeering_facts
+    module: azure_rm_virtualnetworkpeering_info
     resource_group: "{{ az_lab_resourcegroup_name }}"
     virtual_network: "{{ az_lab_virtualnet_name }}"
     name:  "{{ az_peering_name }}"
