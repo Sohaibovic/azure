@@ -6,23 +6,19 @@
   with_sequence: count="{{az_count}}" 
   register: nics
 
-- debug:
-    var: nics
-
 - name: Get list of IP address to Add for {{ az_scope }}
   vars:
     ip_query: 'results[*].networkinterfaces[*].ip_configurations[*].private_ip_address'
     ip_query_result: "{{ nics | json_query(ip_query) }}"
   set_fact:  
     ips_to_add: "{{ lookup('flattened',  ip_query_result) }}"
-  
-- debug: 
-    var: ips_to_add
 
 - name: Add {{ az_scope }} hosts to in memory inventory
   add_host:
     name: "{{ item }}"
-    groups: "{{ az_scope }}"
+    groups: 
+      - "{{ az_scope }}"
+      - "{{ scope }}"
   with_items: "{{ ips_to_add }}"
 
 - name: Wait for SSH to come up
