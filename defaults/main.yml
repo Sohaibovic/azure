@@ -48,4 +48,4 @@ az_image_version: latest
 az_application: "Python ML"
 az_os_type_vm: "Linux"
 az_vm_size: Standard_B2ms   
-rhsm_subscribe_host: no 
+rhsm_subscribe_host: yes 
