@@ -16,8 +16,8 @@ az_subnet_name: "{{ az_environment }}_subnet"
 az_virtualnet_name: "{{ az_environment }}_virtnet"
 az_vn_cidr_prefix: "10.0.2.0/24"
 az_sub_cidr_prefix: "10.0.2.0/24"
-az_lab_resourcegroup_name: "Ansible-RHEL8"
-az_lab_virtualnet_name: "Ansible-RHEL8-vnet"
+az_lab_resourcegroup_name: "dcl-ansible"
+az_lab_virtualnet_name: "dcl-ansible-prv"
 az_peering_name: "Ansible-Isolated-Node"
 az_secgroup_name: "{{ az_environment }}_secgroup"
 az_ssh_pwd_enabled: "false"
@@ -33,6 +33,7 @@ az_availabilitysets_sku: "Aligned"
 az_managed_disk_type: "Standard_LRS"
 az_loadbalanced: no
 
+
 # VM variables
 scope: foo
 az_count: 2
@@ -47,4 +48,4 @@ az_image_sku: '7-LVM'
 az_image_version: latest
 az_application: "Python ML"
 az_os_type_vm: "Linux"
-az_vm_size: Standard_B1s   
+az_vm_size: Standard_B2ms   
