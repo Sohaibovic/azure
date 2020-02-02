@@ -26,4 +26,4 @@
     timeout: 600
     sleep: 15
   delegate_to: "{{ item }}"
-  with_items: "{{ ips_to_add }}"
+  with_items: "{{ ips_to_add.split(',') }}"
